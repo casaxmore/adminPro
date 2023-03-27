@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import Swal from 'sweetalert2'
+
 import { UsuarioService } from '../../services/usuario.service';
 
 @Component({
@@ -14,8 +16,8 @@ export class RegistroComponent {
   public formSubmitted = false;
 
   public registerForm = this.fb.group({
-    nombre: ['casaxmore', [Validators.required, Validators.minLength(3)]],
-    email: ['test1@gmail.com', [Validators.required, Validators.email]],
+    nombre: ['casaxmore100', [Validators.required, Validators.minLength(3)]],
+    email: ['test100@gmail.com', [Validators.required, Validators.email]],
     password: ['123456', [Validators.required]],
     password2: ['123456', [Validators.required]],
     terminos: [true, [Validators.required]],
@@ -33,6 +35,13 @@ export class RegistroComponent {
 
     // Realizar la creación del usuario
     this.usuarioService.crearUsuario(this.registerForm.value)
+      .subscribe(resp => {
+        console.log('Usuario creado');
+        console.log(resp);
+      }, (err) => {
+        // si sucede un error
+        Swal.fire('Error', err.error.msg, 'error');
+      })
   }
 
   campoNoValido(campo:string): boolean {
