@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2'
 
 import { UsuarioService } from '../../services/usuario.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registro',
@@ -11,7 +12,7 @@ import { UsuarioService } from '../../services/usuario.service';
 })
 export class RegistroComponent {
 
-  constructor(private fb: FormBuilder, private usuarioService: UsuarioService){}
+  constructor(private fb: FormBuilder, private usuarioService: UsuarioService, private router: Router){}
 
   public formSubmitted = false;
 
@@ -36,8 +37,7 @@ export class RegistroComponent {
     // Realizar la creación del usuario
     this.usuarioService.crearUsuario(this.registerForm.value)
       .subscribe(resp => {
-        console.log('Usuario creado');
-        console.log(resp);
+        this.router.navigateByUrl('/');
       }, (err) => {
         // si sucede un error
         Swal.fire('Error', err.error.msg, 'error');

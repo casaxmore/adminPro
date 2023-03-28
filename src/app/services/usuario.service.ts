@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 // Lo que hace es lanzar un efecto secundario, paso adicional
-import { tap } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 
 import { environment } from '../environments/environment';
 import { LoginForm } from '../interfaces/login-form.interface';
 import { RegisterForm } from '../interfaces/register-form.interface';
+import { Observable, of } from 'rxjs';
 
 const base_url = environment.base_url;
 
@@ -15,11 +16,28 @@ const base_url = environment.base_url;
 export class UsuarioService {
   constructor(private http: HttpClient) {}
 
+  validarToken(): Observable<boolean> {
+    const token = localStorage.getItem('token') || "";
+
+    return this.http.get(`${base_url}/login/renew`, {
+      headers: {
+        'x-token': token
+      }
+    }).pipe(
+      tap((resp:any) =>{
+        localStorage.setItem('token', resp.token);
+      }),
+      map(resp => true),
+      // El operador of nos permite crear un Observable en base al valor que pongamos
+      catchError( error => of(false))
+    )
+  }
+
   crearUsuario(formData: RegisterForm) {
     console.log('Creando usuario', formData.nombre);
     return this.http.post(`${base_url}/usuarios`, formData).pipe(
       tap((resp: any) => {
-        localStorage.setItem('tokenCrear', resp.token);
+        localStorage.setItem('token', resp.token);
       })
     );
   }
@@ -27,8 +45,18 @@ export class UsuarioService {
   login(formData: any) {
     return this.http.post(`${base_url}/login`, formData).pipe(
       tap((resp: any) => {
-        localStorage.setItem('tokenLogin', resp.token);
+        localStorage.setItem('token', resp.token);
       })
     );
+  }
+
+  loginGoogle(token: string) {
+    return this.http.post(`${base_url}/login/google`, {token})
+      .pipe(
+        tap((resp: any) => {
+          console.log(resp);
+          localStorage.setItem('token', resp.token);
+        })
+      );
   }
 }
