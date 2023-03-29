@@ -67,7 +67,7 @@ export class UsuarioService {
     localStorage.removeItem('token');
 
     // Salir de la cuenta google
-    google.accounts.id.revoke('juegosretrocsx@gmail.com', ()=> {
+    google.accounts.id.revoke('correo', ()=> {
       this.router.navigateByUrl('/login');
     })
   }
