@@ -1,12 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { Router } from '@angular/router';
 // Lo que hace es lanzar un efecto secundario, paso adicional
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { environment } from '../environments/environment';
 import { LoginForm } from '../interfaces/login-form.interface';
 import { RegisterForm } from '../interfaces/register-form.interface';
-import { Observable, of } from 'rxjs';
+
+declare const google: any;
 
 const base_url = environment.base_url;
 
@@ -14,7 +17,7 @@ const base_url = environment.base_url;
   providedIn: 'root',
 })
 export class UsuarioService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   validarToken(): Observable<boolean> {
     const token = localStorage.getItem('token') || "";
@@ -58,5 +61,14 @@ export class UsuarioService {
           localStorage.setItem('token', resp.token);
         })
       );
+  }
+
+  logout() {
+    localStorage.removeItem('token');
+
+    // Salir de la cuenta google
+    google.accounts.id.revoke('juegosretrocsx@gmail.com', ()=> {
+      this.router.navigateByUrl('/login');
+    })
   }
 }
