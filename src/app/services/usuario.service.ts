@@ -22,13 +22,20 @@ export class UsuarioService {
 
   constructor(private http: HttpClient, private router: Router, private ngZone: NgZone) {}
 
+  get token(): string {
+    return localStorage.getItem('token') || '';
+  }
+
+  get uid(): string {
+    return this.usuario.uid || '';
+  }
+
   validarToken(): Observable<boolean> {
-    const token = localStorage.getItem('token') || '';
 
     return this.http
       .get(`${base_url}/login/renew`, {
         headers: {
-          'x-token': token,
+          'x-token': this.token,
         },
       })
       .pipe(
@@ -54,6 +61,20 @@ export class UsuarioService {
         localStorage.setItem('token', resp.token);
       })
     );
+  }
+
+  actualizarPerfil(data: {email: string, nombre: string, role: any}){
+
+    data = {
+      ...data,
+      role: this.usuario.role
+    }
+
+    return this.http.put(`${base_url}/usuarios/${this.uid}`, data, {
+      headers: {
+        'x-token': this.token,
+      }
+    });
   }
 
   login(formData: any) {

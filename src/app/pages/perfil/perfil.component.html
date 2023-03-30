@@ -4,7 +4,7 @@
       <div class="card-body">
         <h4 class="card-title">Mi perfil de usuario</h4>
         <h6 class="card-subtitle">Ajustes</h6>
-        <form class="form p-t-20">
+        <form (submit)="actualizarPerfil()" class="form p-t-20" [formGroup]="perfilForm">
           <div class="form-group">
             <label for="exampleInputuname">User Name</label>
             <div class="input-group">
@@ -14,6 +14,7 @@
                 class="form-control"
                 id="exampleInputuname"
                 placeholder="Username"
+                formControlName="nombre"
               />
             </div>
           </div>
@@ -26,16 +27,22 @@
                 class="form-control"
                 id="exampleInputEmail1"
                 placeholder="Enter email"
+                formControlName="email"
               />
             </div>
           </div>
           <button
             type="submit"
             class="btn btn-success btn-block waves-effect waves-light m-r-10"
+            [disabled]="perfilForm.invalid"
           >
             <i class="fa fa-save"></i>
             Guardar cambios
           </button>
+
+          <!-- <br>
+          <br>
+          <pre>Incorrecto: {{perfilForm.invalid}}</pre> -->
         </form>
       </div>
     </div>
