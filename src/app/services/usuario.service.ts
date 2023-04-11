@@ -9,6 +9,7 @@ import { environment } from '../environments/environment';
 import { LoginForm } from '../interfaces/login-form.interface';
 import { RegisterForm } from '../interfaces/register-form.interface';
 import { Usuario } from '../models/usuario.model';
+import { CargarUsuario } from '../interfaces/cargar-usuarios.interface';
 
 declare const google: any;
 
@@ -28,6 +29,14 @@ export class UsuarioService {
 
   get uid(): string {
     return this.usuario.uid || '';
+  }
+
+  get headers() {
+    return {
+      headers: {
+        'x-token': this.token,
+      },
+    }
   }
 
   validarToken(): Observable<boolean> {
@@ -104,5 +113,11 @@ export class UsuarioService {
       })
     });
     this.router.navigateByUrl('/login');
+  }
+
+  cargarUsuarios(desde: number = 0) {
+    // http://localhost:3000/api/usuarios?desde=5
+    const url = `${base_url}/usuarios?desde=${desde}`;
+    return this.http.get<CargarUsuario>(url, this.headers);
   }
 }
