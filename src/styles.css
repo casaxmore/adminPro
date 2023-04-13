@@ -7,3 +7,12 @@
 .selector, .cursor {
   cursor: pointer;
 }
+
+.w100 {
+  width: 100px;
+}
+
+.avatar {
+  width: 75px;
+  border-radius: 100%;
+}

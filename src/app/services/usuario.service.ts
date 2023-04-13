@@ -3,7 +3,7 @@ import { Injectable, NgZone } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
 // Lo que hace es lanzar un efecto secundario, paso adicional
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, delay, map, tap } from 'rxjs/operators';
 
 import { environment } from '../environments/environment';
 import { LoginForm } from '../interfaces/login-form.interface';
@@ -79,11 +79,7 @@ export class UsuarioService {
       role: this.usuario.role
     }
 
-    return this.http.put(`${base_url}/usuarios/${this.uid}`, data, {
-      headers: {
-        'x-token': this.token,
-      }
-    });
+    return this.http.put(`${base_url}/usuarios/${this.uid}`, data, this.headers);
   }
 
   login(formData: any) {
@@ -118,6 +114,27 @@ export class UsuarioService {
   cargarUsuarios(desde: number = 0) {
     // http://localhost:3000/api/usuarios?desde=5
     const url = `${base_url}/usuarios?desde=${desde}`;
-    return this.http.get<CargarUsuario>(url, this.headers);
+    return this.http.get<CargarUsuario>(url, this.headers)
+        .pipe(
+          /* delay(5000), */
+          map(resp => {
+            const usuarios = resp.usuarios.map( user => new Usuario(user.nombre, user.email, '', user.img, user.google, user.role, user.uid)
+            );
+            return {
+              total: resp.total,
+              usuarios
+            };
+          })
+        )
+  }
+
+  eliminarUsuaurio(usuario: Usuario){
+    const url = `${base_url}/usuarios/${usuario.uid}`;
+    return this.http.delete(url, this.headers);
+  }
+
+  guardarUsuario(usuario: Usuario){
+
+    return this.http.put(`${base_url}/usuarios/${usuario.uid}`, usuario, this.headers);
   }
 }

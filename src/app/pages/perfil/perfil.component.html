@@ -4,7 +4,11 @@
       <div class="card-body">
         <h4 class="card-title">Mi perfil de usuario</h4>
         <h6 class="card-subtitle">Ajustes</h6>
-        <form (submit)="actualizarPerfil()" class="form p-t-20" [formGroup]="perfilForm">
+        <form
+          (submit)="actualizarPerfil()"
+          class="form p-t-20"
+          [formGroup]="perfilForm"
+        >
           <div class="form-group">
             <label for="exampleInputuname">User Name</label>
             <div class="input-group">
@@ -53,20 +57,22 @@
       <div class="card-body">
         <h4 class="card-title">Avatar</h4>
         <h6 class="card-subtitle">Imagen del usuario</h6>
-        <img *ngIf="!imgTemp" [src]="usuario.imagenUrl" class="img-avatar">
-        <img *ngIf="imgTemp" [src]="imgTemp" class="img-avatar">
-        <br><br>
-        <input type="file" (change)="cambiarImagen($event)">
-        <br><br>
+        <div class="text-center">
+          <img *ngIf="!imgTemp" [src]="usuario.imagenUrl" class="img-avatar" />
+          <img *ngIf="imgTemp" [src]="imgTemp" class="img-avatar" />
+        </div>
+        <br /><br />
+        <input type="file" (change)="cambiarImagen($event)" />
+        <br /><br />
         <button
-            type="submit"
-            class="btn btn-success btn-block waves-effect waves-light m-r-10"
-            [disabled]="!imagenSubir"
-            (click)="subirImagen()"
-          >
-            <i class="fa fa-save"></i>
-            Cambiar imagen
-          </button>
+          type="submit"
+          class="btn btn-success btn-block waves-effect waves-light m-r-10"
+          [disabled]="!imagenSubir"
+          (click)="subirImagen()"
+        >
+          <i class="fa fa-save"></i>
+          Cambiar imagen
+        </button>
       </div>
     </div>
   </div>
