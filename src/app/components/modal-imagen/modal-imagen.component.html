@@ -25,8 +25,8 @@
         <div class="modal-body">
           <h3>Seleccione una imagen</h3>
           <div class="text-center">
-            <!-- <img *ngIf="!imgTemp" [src]="usuario.imagenUrl" class="img-avatar" /> -->
-            <img *ngIf="imgTemp" [src]="imgTemp" class="img-avatar" />
+            <img width="140px" *ngIf="!imgTemp" [src]="modalImagenService.img" class="img-avatar" />
+            <img width="140px" *ngIf="imgTemp" [src]="imgTemp" class="img-avatar" />
           </div>
           <br /><br />
           <input type="file" (change)="cambiarImagen($event)" />
@@ -35,7 +35,7 @@
           <button type="button" class="btn btn-default" data-dismiss="modal" (click)="cerrarModal()">
             Cancelar
           </button>
-          <button type="button" class="btn btn-primary">Actualizar foto</button>
+          <button type="button" class="btn btn-primary" (click)="subirImagen()">Actualizar foto</button>
         </div>
       </div>
     </div>
