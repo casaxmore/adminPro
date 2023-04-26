@@ -30,9 +30,9 @@ const routes: Routes = [
       { path: 'perfil', component: PerfilComponent, data: {titulo: 'Perfil de usuario'} },
 
       // Mantenimientos
-      { path: 'usuarios', component: UsuariosComponent, data: {titulo: 'Usuario de aplicación'} },
-      { path: 'medicos', component: MedicosComponent, data: {titulo: 'Médicos de aplicación'} },
-      { path: 'hospitales', component: HospitalesComponent, data: {titulo: 'Hospitales de aplicación'} },
+      { path: 'usuarios', component: UsuariosComponent, data: {titulo: 'Mantenimiento de Usuario'} },
+      { path: 'medicos', component: MedicosComponent, data: {titulo: 'Mantenimiento de Médicos'} },
+      { path: 'hospitales', component: HospitalesComponent, data: {titulo: 'Mantenimiento de Hospitales'} },
     ],
   },
 ];
