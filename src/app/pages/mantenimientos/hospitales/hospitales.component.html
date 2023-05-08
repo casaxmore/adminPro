@@ -12,8 +12,7 @@
   </div>
 </div>
 
-<div class="row animated fadeIn fast"
-      *ngIf="cargando">
+<div class="row animated fadeIn fast" *ngIf="cargando">
   <div class="col-12">
     <div class="alert alert-info text-center">
       <h4 class="alert-heading">Cargando</h4>
@@ -23,13 +22,30 @@
   </div>
 </div>
 
-<div class="row"
-      *ngIf="!cargando">
+<div class="row" *ngIf="!cargando">
   <div class="col-12">
     <div class="card">
       <div class="card-body">
-        <h4 class="card-title">Hospitales - nº de hospitales: {{hospitales.length}}</h4>
-        <h6 class="card-subtitle">Hospitales registrados en mi aplicación</h6>
+        <div class="row">
+          <div class="col-8">
+            <h4 class="card-title">
+              Hospitales - nº de hospitales: ({{ hospitales.length }})
+            </h4>
+            <h6 class="card-subtitle">
+              Hospitales registrados en mi aplicación
+            </h6>
+          </div>
+
+          <div class="col">
+            <div class="text-right">
+              <button class="btn btn-primary">
+                <i class="fa fa-hospital-o"></i>
+                Crear hospital
+              </button>
+            </div>
+          </div>
+        </div>
+
         <div class="table-responsive">
           <table class="table table-bordered">
             <thead>
@@ -42,19 +58,34 @@
             <tbody>
               <tr *ngFor="let hospital of hospitales">
                 <td class="text-center">
-                  <img class="cursor" width="50px" [src]="hospital.img | imagen: 'hospitales'" [alt]="hospital.nombre">
+                  <img
+                    class="cursor"
+                    width="50px"
+                    [src]="hospital.img | imagen : 'hospitales'"
+                    [alt]="hospital.nombre"
+                  />
                 </td>
                 <td>
-                  <input type="text"
-                         class="form-control"
-                         placeholder="Nombre del hospital"
-                         [(ngModel)]="hospital.nombre">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Nombre del hospital"
+                    [(ngModel)]="hospital.nombre"
+                  />
                 </td>
                 <td class="text-nowrap text-center">
-                  <a href="#" data-toggle="tooltip" data-original-title="Guardar cambios">
+                  <a
+                    href="#"
+                    data-toggle="tooltip"
+                    data-original-title="Guardar cambios"
+                  >
                     <i class="fa fa-save text-inverse m-r-10"></i>
                   </a>
-                  <a href="#" data-toggle="tooltip" data-original-title="Borrar">
+                  <a
+                    href="#"
+                    data-toggle="tooltip"
+                    data-original-title="Borrar"
+                  >
                     <i class="fa fa-close text-danger"></i>
                   </a>
                 </td>
@@ -63,7 +94,7 @@
           </table>
         </div>
 
-  <!--       <button class="btn btn-secondary">Anteriores</button>
+        <!--       <button class="btn btn-secondary">Anteriores</button>
         &nbsp;
         <button class="btn btn-secondary">Siguientes</button> -->
       </div>
