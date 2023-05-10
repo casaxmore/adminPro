@@ -6,6 +6,8 @@
           type="text"
           class="form-control"
           placeholder="Buscar hospitales..."
+          (keyup)="buscar(txtTermino.value)"
+          #txtTermino
         />
       </div>
     </div>
@@ -38,7 +40,8 @@
 
           <div class="col">
             <div class="text-right">
-              <button class="btn btn-primary">
+              <button class="btn btn-primary"
+                (click)="abrirSweetAlert()">
                 <i class="fa fa-hospital-o"></i>
                 Crear hospital
               </button>
@@ -63,6 +66,7 @@
                     width="50px"
                     [src]="hospital.img | imagen : 'hospitales'"
                     [alt]="hospital.nombre"
+                    (click)="abrirModal(hospital)"
                   />
                 </td>
                 <td>
@@ -75,14 +79,16 @@
                 </td>
                 <td class="text-nowrap text-center">
                   <a
-                    href="#"
+                    (click)="guardarCambios(hospital)"
                     data-toggle="tooltip"
+                    class="cursor"
                     data-original-title="Guardar cambios"
                   >
                     <i class="fa fa-save text-inverse m-r-10"></i>
                   </a>
                   <a
-                    href="#"
+                    class="cursor"
+                    (click)="eliminarHospital(hospital)"
                     data-toggle="tooltip"
                     data-original-title="Borrar"
                   >
