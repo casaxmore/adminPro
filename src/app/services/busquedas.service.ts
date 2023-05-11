@@ -3,15 +3,15 @@ import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment';
 import { map } from 'rxjs';
 import { Usuario } from '../models/usuario.model';
+import { Medico } from '../models/medicos.model';
 
 const base_url = environment.base_url;
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BusquedasService {
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   get token(): string {
     return localStorage.getItem('token') || '';
@@ -22,30 +22,41 @@ export class BusquedasService {
       headers: {
         'x-token': this.token,
       },
-    }
+    };
   }
 
-  private transformarUsuarios (resultados: any[]): Usuario[] {
+  private transformarUsuarios(resultados: any[]): Usuario[] {
     return resultados.map(
-      user => new Usuario(user.nombre, user.email, '', user.img, user.google, user.role, user.uid)
+      (user) =>
+        new Usuario(
+          user.nombre,
+          user.email,
+          '',
+          user.img,
+          user.google,
+          user.role,
+          user.uid
+        )
     );
   }
 
-  buscar(
-    tipo: 'usuarios'|'medicos'|'hospitales',
-    terminos: string
-    ) {
+  private transformarMedicos(resultados: any[]): Medico[] {
+    return resultados;
+  }
+
+  buscar(tipo: 'usuarios' | 'medicos' | 'hospitales', terminos: string) {
     const url = `${base_url}/todo/coleccion/${tipo}/${terminos}`;
-    return this.http.get<any[]>(url, this.headers)
-      .pipe(
-        map( (resp: any) => {
-          switch (tipo) {
-            case 'usuarios':
-              return this.transformarUsuarios(resp.resultados);
-            default:
-              return[];
-          }
-        })
-      )
+    return this.http.get<any[]>(url, this.headers).pipe(
+      map((resp: any) => {
+        switch (tipo) {
+          case 'usuarios':
+            return this.transformarUsuarios(resp.resultados);
+          case 'medicos':
+            return this.transformarMedicos(resp.resultados);
+          default:
+            return [];
+        }
+      })
+    );
   }
 }

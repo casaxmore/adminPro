@@ -6,28 +6,49 @@
           type="text"
           class="form-control"
           placeholder="Buscar médicos..."
+          #txttermino
+          (keyup)="buscar(txttermino.value)"
         />
       </div>
     </div>
   </div>
 </div>
 
-<div class="row animated fadeIn fast">
+<div class="row animated fadeIn fast" *ngIf="cargando">
   <div class="col-12">
     <div class="alert alert-info text-center">
-      <h4 class="alert-heading">Cargando</h4>a
+      <h4 class="alert-heading">Cargando</h4>
       <i class="fa fa-spin fa-refresh fa-2x"></i>
       <p class="mb-0">Por favor espere</p>
     </div>
   </div>
 </div>
 
-<div class="row">
+<div class="row" *ngIf="!cargando">
   <div class="col-12">
     <div class="card">
       <div class="card-body">
-        <h4 class="card-title">Médicos</h4>
-        <h6 class="card-subtitle">Médicos registrados en mi aplicación</h6>
+        <div class="row">
+          <div class="col-8">
+            <h4 class="card-title">
+              Médicos - nº de médicos: ({{ medicos.length }})
+            </h4>
+            <h6 class="card-subtitle">
+              Médicos registrados en mi aplicación
+            </h6>
+          </div>
+
+          <div class="col">
+            <div class="text-right">
+              <button class="btn btn-primary"
+                [routerLink]="['/dashboard/medico/nuevo']">
+                <i class="fa fa-hospital-o"></i>
+                Crear médico
+              </button>
+            </div>
+          </div>
+        </div>
+
         <div class="table-responsive">
           <table class="table table-bordered">
             <thead>
@@ -38,14 +59,32 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Lunar probe project</td>
-                <td>Lunar probe project</td>
-                <td class="text-nowrap text-center">
-                  <a href="#" data-toggle="tooltip" data-original-title="Editar">
+              <tr *ngFor="let medico of medicos">
+                <td class="text-center">
+                  <img
+                    class="cursor"
+                    width="50px"
+                    [src]="medico.img | imagen : 'medicos'"
+                    [alt]="medico.nombre"
+                    (click)="abrirModal(medico)"
+                  />
+                </td>
+                <td class="text-center">{{ medico.nombre }}</td>
+                <td class="text-nowrap text-center" width="140px">
+                  <a
+                    [routerLink]="['/dashboard/medico', medico._id]"
+                    data-toggle="tooltip"
+                    class="cursor"
+                    data-original-title="Editar cambios"
+                  >
                     <i class="fa fa-pencil text-inverse m-r-10"></i>
                   </a>
-                  <a href="#" data-toggle="tooltip" data-original-title="Borrar">
+                  <a
+                    class="cursor"
+                    (click)="eliminarMedico(medico)"
+                    data-toggle="tooltip"
+                    data-original-title="Borrar"
+                  >
                     <i class="fa fa-close text-danger"></i>
                   </a>
                 </td>
@@ -59,5 +98,6 @@
         <button class="btn btn-secondary">Siguientes</button>-->
       </div>
     </div>
-  </div>
+      
+  </div>
 </div>

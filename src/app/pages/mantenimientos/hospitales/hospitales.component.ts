@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { delay, Subscription } from 'rxjs';
 import { Hospital } from 'src/app/models/hospitales.model';
 import { HospitalService } from 'src/app/services/hospital.service';
@@ -9,26 +9,27 @@ import { BusquedaHospitalService } from '../../../services/busqueda-hospital.ser
 @Component({
   selector: 'app-hospitales',
   templateUrl: './hospitales.component.html',
-  styleUrls: ['./hospitales.component.css']
+  styleUrls: ['./hospitales.component.css'],
 })
-export class HospitalesComponent implements OnInit{
-
+export class HospitalesComponent implements OnInit, OnDestroy {
   public hospitales: Hospital[] = [];
   public cargando: boolean = true;
   public imgSubs!: Subscription;
 
-  constructor(private hospitalService: HospitalService, private modalImagenService: ModalImagenService, private busquedaHospitalService: BusquedaHospitalService){}
-
+  constructor(
+    private hospitalService: HospitalService,
+    private modalImagenService: ModalImagenService,
+    private busquedaHospitalService: BusquedaHospitalService
+  ) {}
 
   ngOnInit(): void {
-
     this.cargarHospitales();
 
     this.imgSubs = this.modalImagenService.nuevaImagen
-    .pipe(delay(100))
-    .subscribe(img => this.cargarHospitales());
+      .pipe(delay(100))
+      .subscribe((img) => this.cargarHospitales());
 
-  /*   this.cargando = true;
+    /*   this.cargando = true;
 
     this.hospitalService.cargarHospitales()
       .subscribe(hospitales => {
@@ -36,57 +37,63 @@ export class HospitalesComponent implements OnInit{
       }) */
   }
 
+  ngOnDestroy(): void {
+    this.imgSubs.unsubscribe();
+  }
+
   cargarHospitales() {
     this.cargando = true;
-    this.hospitalService.cargarHospitales()
-      .subscribe(hospitales => {
-        this.cargando = false;
-        this.hospitales = hospitales;
-        console.log(hospitales);
-      })
+    this.hospitalService.cargarHospitales().subscribe((hospitales) => {
+      this.cargando = false;
+      this.hospitales = hospitales;
+      console.log(hospitales);
+    });
   }
 
-  guardarCambios(hospital: Hospital){
-    this.hospitalService.actualizarHospitales(hospital._id!, hospital.nombre)
-        .subscribe(resp => {
-          Swal.fire('Actualizando', hospital.nombre, 'success');
-        });
+  guardarCambios(hospital: Hospital) {
+    this.hospitalService
+      .actualizarHospitales(hospital._id!, hospital.nombre)
+      .subscribe((resp) => {
+        Swal.fire('Actualizando', hospital.nombre, 'success');
+      });
   }
 
-  eliminarHospital(hospital: Hospital){
-    this.hospitalService.borrarHospitales(hospital._id!)
-        .subscribe(resp => {
-          this.cargarHospitales();
-          Swal.fire('Borrado', hospital.nombre, 'success');
-        });
+  eliminarHospital(hospital: Hospital) {
+    this.hospitalService.borrarHospitales(hospital._id!).subscribe((resp) => {
+      this.cargarHospitales();
+      Swal.fire('Borrado', hospital.nombre, 'success');
+    });
   }
 
   async abrirSweetAlert() {
-    const {value = ''} = await Swal.fire<string>({
+    const { value = '' } = await Swal.fire<string>({
       title: 'Crear Hospital',
       text: 'Ingrese el nombre del nuevo hospital',
       input: 'text',
       inputPlaceholder: 'Nombre del hospital',
-      showCancelButton: true
-    })
+      showCancelButton: true,
+    });
 
-    if(value!.trim().length > 0){
-      this.hospitalService.crearHospitales(value)
-        .subscribe((resp: any) => {
-          this.hospitales.push(resp.hospital)
-        })
+    if (value!.trim().length > 0) {
+      this.hospitalService.crearHospitales(value).subscribe((resp: any) => {
+        this.hospitales.push(resp.hospital);
+      });
     }
   }
 
-  abrirModal(hospital:Hospital){
+  abrirModal(hospital: Hospital) {
     console.log(hospital);
-    this.modalImagenService.abrirModal('hospitales', hospital._id!, hospital.img);
-
+    this.modalImagenService.abrirModal(
+      'hospitales',
+      hospital._id!,
+      hospital.img
+    );
   }
 
   buscar(termino: string) {
     if (termino.length === 0) {
       this.cargarHospitales();
+      return (this.hospitales = []);
     }
 
     this.busquedaHospitalService
@@ -96,6 +103,4 @@ export class HospitalesComponent implements OnInit{
       });
     return;
   }
-
-
 }
