@@ -1,46 +1,64 @@
-<div class="col-lg-6">
-  <div class="card">
+<div class="row">
+  <div class="col">
+    <div class="card">
       <div class="card-body">
-          <h4 class="card-title">Sample Form with the Icons</h4>
-          <h6 class="card-subtitle">made with bootstrap elements</h6>
-          <form class="form p-t-20">
-              <div class="form-group">
-                  <label for="exampleInputuname">User Name</label>
-                  <div class="input-group">
-                      <div class="input-group-addon"><i class="ti-user"></i></div>
-                      <input type="text" class="form-control" id="exampleInputuname" placeholder="Username">
-                  </div>
-              </div>
-              <div class="form-group">
-                  <label for="exampleInputEmail1">Email address</label>
-                  <div class="input-group">
-                      <div class="input-group-addon"><i class="ti-email"></i></div>
-                      <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-                  </div>
-              </div>
-              <div class="form-group">
-                  <label for="pwd1">Password</label>
-                  <div class="input-group">
-                      <div class="input-group-addon"><i class="ti-lock"></i></div>
-                      <input type="password" class="form-control" id="pwd1" placeholder="Enter email">
-                  </div>
-              </div>
-              <div class="form-group">
-                  <label for="pwd2">Confirm Password</label>
-                  <div class="input-group">
-                      <div class="input-group-addon"><i class="ti-lock"></i></div>
-                      <input type="password" class="form-control" id="pwd2" placeholder="Enter email">
-                  </div>
-              </div>
-              <div class="form-group">
-                  <div class="checkbox checkbox-success">
-                      <input id="checkbox1" type="checkbox">
-                      <label for="checkbox1"> Remember me </label>
-                  </div>
-              </div>
-              <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
-              <button type="submit" class="btn btn-inverse waves-effect waves-light">Cancel</button>
-          </form>
+        <h4 class="card-title">Médico</h4>
+        <h6 class="card-subtitle">Información</h6>
+        <form class="form p-t-20">
+          <div class="form-group">
+            <label for="exampleInputuname">Foto</label>
+            <div class="input-group">
+              <img class="text-center"
+                width="200px"
+                src="http://localhost:3000/api/uploads/medicos/5f069c3d-4c61-499d-9b25-7bdd341bad71.jpg"
+                alt=""
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputuname">Nombre</label>
+            <div class="input-group">
+              <div class="input-group-addon"><i class="ti-user"></i></div>
+              <input
+                type="text"
+                class="form-control"
+                id="exampleInputuname"
+                placeholder="Nombre del médico"
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Hospital</label>
+            <div class="input-group">
+              <select class="form-control">
+                <option value="">Hospital 1</option>
+                <option value="">Hospital 2</option>
+                <option value="">Hospital 3</option>
+              </select>
+            </div>
+          </div>
+          <button
+            type="submit"
+            class="btn btn-success waves-effect waves-light m-r-10"
+          >
+            <i class="fa fa-save"></i>
+            Guardar
+          </button>
+        </form>
       </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Hospital</h4>
+        <h6 class="card-subtitle">Hospital asignado</h6>
+        <img
+          width="200px"
+          src="http://localhost:3000/api/uploads/medicos/5f069c3d-4c61-499d-9b25-7bdd341bad71.jpg"
+          alt=""
+        />
+      </div>
+    </div>
   </div>
 </div>
