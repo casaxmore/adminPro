@@ -1,10 +1,13 @@
 <div class="row">
-  <div class="col">
+  <div class="col-md-6">
     <div class="card">
       <div class="card-body">
         <h4 class="card-title">Médico</h4>
         <h6 class="card-subtitle">Información</h6>
-        <form class="form p-t-20">
+
+        <form class="form p-t-20"
+                [formGroup]="medicoForm"
+                (submit)="guardarMedico()">
           <div class="form-group">
             <label for="exampleInputuname">Foto</label>
             <div class="input-group">
@@ -20,6 +23,7 @@
             <div class="input-group">
               <div class="input-group-addon"><i class="ti-user"></i></div>
               <input
+                formControlName="nombre"
                 type="text"
                 class="form-control"
                 id="exampleInputuname"
@@ -30,14 +34,17 @@
           <div class="form-group">
             <label for="exampleInputEmail1">Hospital</label>
             <div class="input-group">
-              <select class="form-control">
-                <option value="">Hospital 1</option>
-                <option value="">Hospital 2</option>
-                <option value="">Hospital 3</option>
+              <select class="form-control" formControlName="hospital">
+                <option value="">Seleccione Hospital</option>
+                <option
+                        *ngFor="let hospital of hospitales"
+                        [value]="hospital._id">
+                        {{hospital.nombre}}</option>
               </select>
             </div>
           </div>
           <button
+            [disabled]="medicoForm.invalid"
             type="submit"
             class="btn btn-success waves-effect waves-light m-r-10"
           >
@@ -48,14 +55,14 @@
       </div>
     </div>
   </div>
-  <div class="col">
+  <div class="col animated fadeIn fast" *ngIf="hospitalSeleccionado">
     <div class="card">
       <div class="card-body">
         <h4 class="card-title">Hospital</h4>
-        <h6 class="card-subtitle">Hospital asignado</h6>
+        <h6 class="card-subtitle">{{hospitalSeleccionado.nombre}}</h6>
         <img
-          width="200px"
-          src="http://localhost:3000/api/uploads/medicos/5f069c3d-4c61-499d-9b25-7bdd341bad71.jpg"
+          class="img-thumbnail"
+          [src]="hospitalSeleccionado.img | imagen: 'hospitales'"
           alt=""
         />
       </div>
