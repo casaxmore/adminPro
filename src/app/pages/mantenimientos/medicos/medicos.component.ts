@@ -43,7 +43,7 @@ export class MedicosComponent implements OnInit, OnDestroy{
   }
 
   guardarCambios(medico: any){
-    this.medicoService.actualizarMedico(medico._id!, medico.nombre)
+    this.medicoService.actualizarMedico( medico.nombre)
         .subscribe(resp => {
           Swal.fire('Actualizando', medico.nombre, 'success');
         });

@@ -8,12 +8,13 @@
         <form class="form p-t-20"
                 [formGroup]="medicoForm"
                 (submit)="guardarMedico()">
-          <div class="form-group">
+          <div class="form-group"
+            *ngIf="medicoSeleccionado">
             <label for="exampleInputuname">Foto</label>
             <div class="input-group">
               <img class="text-center"
                 width="200px"
-                src="http://localhost:3000/api/uploads/medicos/5f069c3d-4c61-499d-9b25-7bdd341bad71.jpg"
+                [src]="medicoSeleccionado.img | imagen: 'medicos'"
                 alt=""
               />
             </div>

@@ -33,13 +33,21 @@ export class MedicoService {
       )
   }
 
+  obtenederMedicoPorId(id: string) {
+    const url = `${base_url}/medicos/${id}`;
+    return this.http.get(url, this.headers)
+      .pipe(
+        map((resp: any) => resp.medico)
+      )
+  }
+
   crearMedico(medico: any) {
     const url = `${base_url}/medicos`;
     return this.http.post(url, medico, this.headers);
   }
 
-  actualizarMedico(_id: string, medico: Medico) {
-    const url = `${base_url}/hospitales/${ medico._id}`;
+  actualizarMedico(medico: Medico) {
+    const url = `${base_url}/medicos/${ medico._id}`;
     return this.http.put(url, medico, this.headers);
   }
 
