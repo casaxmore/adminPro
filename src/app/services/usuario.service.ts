@@ -39,6 +39,10 @@ export class UsuarioService {
     }
   }
 
+  get role(): 'ADMIN_ROLE' | 'USER_ROLE' | undefined{
+    return this.usuario.role;
+  }
+
   validarToken(): Observable<boolean> {
 
     return this.http

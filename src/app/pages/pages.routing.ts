@@ -1,4 +1,4 @@
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, CanActivate } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { PagesComponent } from './pages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -16,6 +16,7 @@ import { MedicosComponent } from './mantenimientos/medicos/medicos.component';
 import { HospitalesComponent } from './mantenimientos/hospitales/hospitales.component';
 import { MedicoComponent } from './mantenimientos/medicos/medico/medico.component';
 import { BusquedaComponent } from './busqueda/busqueda.component';
+import { AdminGuard } from '../guards/admin.guard';
 
 const routes: Routes = [
   {
@@ -33,10 +34,12 @@ const routes: Routes = [
       { path: 'buscar/:termino', component: BusquedaComponent, data: {titulo: 'Busquedas'} },
 
       // Mantenimientos
-      { path: 'usuarios', component: UsuariosComponent, data: {titulo: 'Mantenimiento de Usuario'} },
       { path: 'medicos', component: MedicosComponent, data: {titulo: 'Mantenimiento de Médicos'} },
       { path: 'medico/:id', component: MedicoComponent, data: {titulo: 'Mantenimiento de Médicos'} },
       { path: 'hospitales', component: HospitalesComponent, data: {titulo: 'Mantenimiento de Hospitales'} },
+
+      // Rutas de Admin
+      { path: 'usuarios', canActivate: [AdminGuard],  component: UsuariosComponent, data: {titulo: 'Mantenimiento de Usuario'} },
     ],
   },
 ];
