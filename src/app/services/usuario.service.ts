@@ -54,6 +54,7 @@ export class UsuarioService {
 
           this.usuario = new Usuario(nombre, email, '', img, google, role, uid);
 
+          /* localStorage.setItem('menu', JSON.stringify(resp.menu)); */
           localStorage.setItem('token', resp.token);
           return true;
         }),
@@ -67,6 +68,7 @@ export class UsuarioService {
     console.log('Creando usuario', formData.nombre);
     return this.http.post(`${base_url}/usuarios`, formData).pipe(
       tap((resp: any) => {
+        localStorage.setItem('menu', JSON.stringify(resp.menu));
         localStorage.setItem('token', resp.token);
       })
     );
@@ -85,6 +87,7 @@ export class UsuarioService {
   login(formData: any) {
     return this.http.post(`${base_url}/login`, formData).pipe(
       tap((resp: any) => {
+        localStorage.setItem('menu', JSON.stringify(resp.menu));
         localStorage.setItem('token', resp.token);
       })
     );
@@ -94,6 +97,7 @@ export class UsuarioService {
     return this.http.post(`${base_url}/login/google`, { token }).pipe(
       tap((resp: any) => {
         console.log(resp);
+        localStorage.setItem('menu', JSON.stringify(resp.menu));
         localStorage.setItem('token', resp.token);
       })
     );
@@ -101,6 +105,7 @@ export class UsuarioService {
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('menu');
 
     // Salir de la cuenta google
     google.accounts.id.revoke('casaxmore@gmail.com', () => {

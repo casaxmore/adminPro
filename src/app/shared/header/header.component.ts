@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UsuarioService } from '../../services/usuario.service';
 import { Usuario } from '../../models/usuario.model';
 import { Router } from '@angular/router';
@@ -9,13 +9,17 @@ import { Router } from '@angular/router';
   styles: [
   ]
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit{
 
   public usuario!: Usuario;
 
   constructor(private usuarioService: UsuarioService, private router: Router){
 
     this.usuario = usuarioService.usuario;
+  }
+
+  ngOnInit(): void {
+
   }
 
   logout(){
